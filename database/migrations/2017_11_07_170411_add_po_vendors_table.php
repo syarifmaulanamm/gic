@@ -15,7 +15,6 @@ class AddPoVendorsTable extends Migration
     {
         Schema::create('po_vendors', function (Blueprint $table) {
             $table->increments('id')->unique();
-            $table->string('po_id');
             $table->string('name');
             $table->string('email');
             $table->string('phone');

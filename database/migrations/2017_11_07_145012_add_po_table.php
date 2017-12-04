@@ -15,6 +15,8 @@ class AddPoTable extends Migration
     {
         Schema::create('po', function (Blueprint $table) {
             $table->increments('id')->unique();
+            $table->string('title');
+            $table->string('vendor_id');
             $table->string('delivery')->nullable();
             $table->string('shipment_to')->nullable();
             $table->string('freight')->nullable();

@@ -20,6 +20,7 @@ class CreateInvGoodsOutTable extends Migration
             $table->string('pic');
             $table->integer('qty');
             $table->text('notes');
+            $table->integer('status');
             $table->timestamps();
         });
     }
