@@ -14,7 +14,10 @@
                     <th>Title</th>
                     <th>Issued By</th>
                     <th>Status</th>
-                    <th width="50">Option</th>
+                    @if($AGENT['role'] != 5)
+                    <th>Approval</th>
+                    @endif
+                    <th width="120">Option</th>
                 </tr>
             </thead>
             <tbody>
@@ -36,20 +39,33 @@
                         <span class="label label-danger">Rejected</span>
                         @endif
                     </td>
+                    @if($AGENT['role'] != 5)
                     <td>
+                        @if($AGENT['role'] == 4)                    
+                        <button class="btn btn-success" id="BtnApproval" data-id="{{ $item->id }}"><i class="fa fa-check"></i> Approve</button>
+                        @endif
+                    </td>
+                    @endif
+                    <td class="text-center">
+                        <a href="{{ url("po/$item->id") }}" class="btn btn-default btn-sm"><i class="fa fa-eye"></i></a>
+                        @if($AGENT['role'] == 4)
                         <a href="{{ url("po/update/$item->id") }}" class="btn btn-default btn-sm"><i class="fa fa-edit"></i></a>
                         <a href="#" data-id="{{ $item->id }}" class="btn btn-default btn-sm btnDelete"><i class="fa fa-trash"></i></a>
+                        @endif
                     </td>
                 </tr>
                 @endforeach
             </tbody>
             <tfoot>
                 <tr>
-                    <th>#</th>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Phone</th>
-                    <th>Option</th>
+                    <th>ID</th>
+                    <th>Title</th>
+                    <th>Issued By</th>
+                    <th>Status</th>
+                    @if($AGENT['role'] != 5)
+                    <th>Approval</th>
+                    @endif
+                    <th width="120">Option</th>
                 </tr>
             </tfoot>
         </table>
@@ -60,7 +76,9 @@
 @section('js')
 <script>
     $(function(){
-        $('.datatables').DataTable();
+        $('.datatables').DataTable({
+            "bSort" : false
+        });
         $('.editor').wysihtml5();
         $('[data-toggle="tooltip"]').tooltip();
 

@@ -165,7 +165,7 @@
                     <tbody>
                         <tr id="item0" data-id="0" class="hide">
                             <td data-name="name">
-                                <input type="text" name="name[]" class="form-control">
+                                <input type="text" name="nameItem[]" class="form-control">
                             </td>
                             <td data-name="quantity">
                                 <input type="number" name="quantity[]" class="form-control">
@@ -194,7 +194,9 @@
 @section('js')
 <script>
     $(function(){
-        $('.datatables').DataTable();
+        $('.datatables').DataTable({
+            "bSort" : false
+        });
         $('.editor').wysihtml5();
         $('[data-toggle="tooltip"]').tooltip();
 

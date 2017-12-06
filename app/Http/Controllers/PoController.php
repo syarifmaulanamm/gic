@@ -22,19 +22,18 @@ class PoController extends Controller
     {
         $data['AGENT'] = $this->AGENT;
         $data['page_title'] = 'Purchase Order';
-        $data['po'] = Po::where('issued_by', '=', $data['AGENT']['email'])->get();
         
-        if($data['AGENT']['role'] == 1){
-            return view('public/po', $data);       
+        if($data['AGENT']['role'] == 1 || $data['AGENT']['role'] == 2){
+            $data['po'] = Po::all();                        
         }else if($data['AGENT']['role'] == 4){
-            return view('public/po', $data);       
-        }else if($data['AGENT']['role'] == 3){
-            return view('public/po', $data);                  
-        }else if($data['AGENT']['role'] == 6){
-            return view('public/po', $data);                  
+            $data['po'] = Po::where('status', '=', 0)->orderBy('id', 'desc')->get();            
+        }else if($data['AGENT']['role'] == 5){                  
+            $data['po'] = Po::where('issued_by', '=', $data['AGENT']['email'])->orderBy('id', 'desc')->get();
         }else{
-            return view('public/po', $data);
         }
+
+        
+        return view('public/po', $data);
     }
     // Create
     public function create(Request $request)
@@ -53,7 +52,56 @@ class PoController extends Controller
             'vendor_id' => 'required'
         ]);
 
-        
+        $agent = $this->AGENT;
+
+        if($validator->passes()){
+            // PO
+            $po = new Po;
+            $po->title = $request->title;
+            $po->vendor_id = $request->vendor_id;
+            $po->delivery = $request->delivery;
+            $po->shipment_to = $request->shipment_to;
+            $po->freight = $request->freight;
+            $po->insurance = $request->insurance;
+            $po->payment = $request->payment;
+            $po->total = $request->total;
+            // $po->tax = $request->tax;
+            $po->issued_by = $agent['email'];
+            $po->status = 0;
+            $po->save();
+
+            $id = $po->id;
+            $data = array();
+            // ITEMS
+            for($i = 1; $i < count($request->nameItem); $i++){
+                $data[] = array(
+                    'po_id' => $id,
+                    'name' => $request->nameItem[$i],
+                    'quantity' => $request->quantity[$i],
+                    'price' => $request->price[$i],
+                    'amount' => $request->amount[$i],
+                    'created_at' => date('Y-m-d H:i:s'),
+                    'updated_at' => date('Y-m-d H:i:s')
+                );
+            }
+            $item = PoItem::insert($data);
+
+            return redirect('po');
+        }
+
+        return redirect('po/create')->withErrors($validator)->withInput();
+    }
+
+    // Read
+    public function read(Request $request, $id)
+    {
+        $data['AGENT'] = $this->AGENT;
+        $data['page_title'] = 'Purchase Order Detail';
+        $data['po'] = Po::find($id);
+
+        $data['items'] = PoItem::where('po_id','=',$id)->get();
+
+        return view('public/po_read', $data);
     }
 
 
