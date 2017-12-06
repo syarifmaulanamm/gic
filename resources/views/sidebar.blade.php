@@ -41,7 +41,7 @@
           </a>
           <ul class="treeview-menu">
             <li><a href="{{ url('po') }}">Purchase Order</a></li>
-            <li><a href="{{ url('po/create') }}">Add Purchase Order</a></li>
+            <li><a href="{{ url('po/create') }}">Create Purchase Order</a></li>
             <li><a href="{{ url('po/vendor') }}">Vendor</a></li>
             <li><a href="{{ url('po/vendor/create') }}">Add Vendor</a></li>
           </ul>

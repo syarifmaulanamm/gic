@@ -16,7 +16,8 @@ class PoController extends Controller
     {
         $this->AGENT = session()->get("login_data");    
     }
-    // Inventory
+    /** Purchase Order **/
+    // Index
     public function index(Request $request)
     {
         $data['AGENT'] = $this->AGENT;
@@ -35,78 +36,29 @@ class PoController extends Controller
             return view('public/po', $data);
         }
     }
-
-    // Read PO
-    public function read(Request $request, $id)
-    {
-        $data['AGENT'] = $this->AGENT;
-        $data['page_title'] = 'Create Purchase Order';
-
-        if(!$id){
-            return redirect('po');
-        }
-
-        $data['po'] = Po::find($id);
-        $data['vendors'] = PoVendor::all();
-        $data['items'] = PoItem::where('po_id', '=', $id)->get();
-        $data['itemTotal'] = number_format(PoItem::where('po_id', '=', $id)->sum('amount'), 0, "", ",");
-                
-        return view('public/po_create', $data);
-    } 
-
     // Create
     public function create(Request $request)
     {
+        $data['AGENT'] = $this->AGENT;
+        $data['page_title'] = 'Create Purchase Order';
+        $data['vendors'] = PoVendor::all();
+        
+        return view('public/po_create', $data);
+    }
+    
+    public function doCreate(Request $request)
+    {
         $validator = Validator::make($request->all(), [
             'title' => 'required',
-            'issued_by' => 'required'
+            'vendor_id' => 'required'
         ]);
 
-        if($validator->passes()){
-            $po = new Po;
-            $po->title = $request->title;
-            $po->tax = 0;
-            $po->total = 0;
-            $po->status = 0;
-            $po->issued_by = $request->issued_by;
-            $po->save();
-
-            return response()->json(['success' => 'true', 'msg' => 'Data has been saved!', 'id' => $po->id]);
-        }
-
-        return response()->json(['error'=>$validator->errors()->all()]);
+        
     }
 
-    // Update
-    public function update(Request $request, $id)
-    {
-        if($id){
-            $po = Po::find($id);
-            
-            if($po){
-                if($request->title) $po->title = $request->title;
-                if($request->vendor_id) $po->vendor_id = $request->vendor_id;
-                if($request->delivery) $po->delivery = $request->delivery;
-                if($request->shipment_to) $po->shipment_to = $request->shipment_to;
-                if($request->freight) $po->freight = $request->freight;
-                if($request->insurance) $po->insurance = $request->insurance;
-                if($request->payment) $po->payment = $request->payment;
-                if($request->total) $po->total = $request->total;
-                if($request->tax) $po->tax = $request->tax;
-                if($request->issued_by) $po->issued_by = $request->issued_by;
-                if($request->status) $po->status = $request->status;
-                $po->save();
 
-                return response()->json(['success' => 'true', 'msg' => 'Data has been saved!']);            
-            }else{
-                return response()->json(['success' => 'false', 'msg' => 'Something went wrong!']);                            
-            }
-        }else{
-            return response()->json(['success' => 'false', 'msg' => 'Something went wrong!']);   
-        }
-    }
-
-    // Vendor
+    /** Vendor **/
+    // index
     public function vendor(Request $request)
     {
         $data['AGENT'] = $this->AGENT;

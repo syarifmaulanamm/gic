@@ -37,6 +37,7 @@ Route::group(['middleware' => ['login']], function () {
     Route::get('po', 'PoController@index');
     Route::get('po/vendor', 'PoController@vendor');
     // Create
+    Route::get('po/create', 'PoController@create');
     Route::post('po/create', 'PoController@create');
     Route::post('po/item/create', 'PoController@createItem');
     Route::post('po/attachment/create', 'PoController@createAttachment');
