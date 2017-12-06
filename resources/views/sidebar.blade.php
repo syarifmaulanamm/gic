@@ -33,7 +33,19 @@
         <li class="header">HR/GA</li>
         <!-- Optionally, you can add icons to the links -->
         <li><a href="{{ url('inventory') }}"><i class="fa fa-archive"></i> <span>Inventory</span></a></li>
-        <li><a href="{{ url('po') }}"><i class="fa fa-th-list"></i> <span>Purchase Order</span></a></li>
+        <li class="treeview">
+          <a href="#"><i class="fa fa-th-list" aria-hidden="true"></i> <span>Purchase Order</span>
+            <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+              </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="{{ url('po') }}">Purchase Order</a></li>
+            <li><a href="{{ url('po/create') }}">Add Purchase Order</a></li>
+            <li><a href="{{ url('po/vendor') }}">Vendor</a></li>
+            <li><a href="{{ url('po/vendor/create') }}">Add Vendor</a></li>
+          </ul>
+        </li>
         <li class="treeview">
           <a href="#"><i class="fa fa-table" aria-hidden="true"></i> <span>Report</span>
             <span class="pull-right-container">

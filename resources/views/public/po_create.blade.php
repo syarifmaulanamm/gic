@@ -47,35 +47,35 @@
         <div class="box box-danger">
             <div class="box-body">
                 <form action="#" method="post" id="formStep1">
-                <input type="hidden" name="id" value="{{ $po->id }}">
+                <input type="hidden" name="id" value="">
                 {{ csrf_field() }}
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="no">No.</label>
-                            <input type="text" name="no" class="form-control" value="GAT/PO/{{ $po->id }}" readonly>
+                            <input type="text" name="no" class="form-control" value="GAT/PO/" readonly>
                         </div>
                         <div class="form-group">
                             <label for="delivery">Delivery</label>
-                            <input type="text" name="delivery" value="{{ $po->delivery }}" class="form-control">
+                            <input type="text" name="delivery" value="" class="form-control">
                         </div>
                         <div class="form-group">
                             <label for="shipment_to">Shipment To</label>
-                            <input type="text" name="shipment_to" value="{{ $po->shipment_to }}" class="form-control">
+                            <input type="text" name="shipment_to" value="" class="form-control">
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="freight">Freight</label>
-                            <input type="text" name="freight" value="{{ $po->freight }}" class="form-control">
+                            <input type="text" name="freight" value="" class="form-control">
                         </div>
                         <div class="form-group">
                             <label for="insurance">Insurance</label>
-                            <input type="text" name="insurance" value="{{ $po->insurance }}" class="form-control">
+                            <input type="text" name="insurance" value="" class="form-control">
                         </div>
                         <div class="form-group">
                             <label for="payment">Payment</label>
-                            <input type="text" name="payment" value="{{ $po->payment }}" class="form-control">
+                            <input type="text" name="payment" value="" class="form-control">
                         </div>
                     </div>
                 </div>
@@ -103,19 +103,19 @@
                     <table class="table table-bordered table-striped">
                         <tr>
                             <th>Name</th>
-                            <td><span id="vendorName">{{ $po->vendor->name }}</span></td>
+                            <td><span id="vendorName"></span></td>
                         </tr>
                         <tr>
                             <th>Email</th>
-                            <td><span id="vendorEmail">{{ $po->vendor->email }}</span></td>
+                            <td><span id="vendorEmail"></span></td>
                         </tr>
                         <tr>
                             <th>Phone</th>
-                            <td><span id="vendorPhone">{{ $po->vendor->phone }}</span></td>
+                            <td><span id="vendorPhone"></span></td>
                         </tr>
                         <tr>
                             <th>Address</th>
-                            <td><span id="vendorAddress">{{ $po->vendor->address }}</span></td>
+                            <td><span id="vendorAddress"></span></td>
                         </tr>
                     </table>
                 </div>
@@ -146,18 +146,6 @@
                         <th width="10">Action</th>
                     </thead>
                     <tbody>
-                        @foreach($items as $item)
-                        <tr>
-                            <td>{{ $item->name }}</td>
-                            <td>{{ $item->quantity }}</td>
-                            <td>{{ number_format($item->price,0, "", ",") }}</td>
-                            <td>{{ number_format($item->amount,0, "", ",") }}</td>
-                            <td>
-                                <!-- <button class="btn btn-default" id="btnEditItem" data-id="{{ $item->id }}"><i class="fa fa-edit"></i></button> -->
-                                <button class="btn btn-default" id="deleteItem" data-id="{{ $item->id }}"><i class="fa fa-trash"></i></button>
-                            </td>
-                        </tr>
-                        @endforeach
                     </tbody>
                     <tfoot>
                         <th>Item</th>

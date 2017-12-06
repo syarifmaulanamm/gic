@@ -107,8 +107,25 @@ class PoController extends Controller
     }
 
     // Vendor
+    public function vendor(Request $request)
+    {
+        $data['AGENT'] = $this->AGENT;
+        $data['page_title'] = 'Vendor';
+        $data['vendors'] = PoVendor::all();
+
+        return view('public/vendor', $data);
+    }
+    
     // Create
     public function createVendor(Request $request)
+    {
+        $data['AGENT'] = $this->AGENT;
+        $data['page_title'] = 'Add Vendor';
+
+        return view('public/vendor_create', $data);
+    }
+
+    public function doCreateVendor(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required',
@@ -124,34 +141,69 @@ class PoController extends Controller
             $vendor->address = $request->address;
             $vendor->save();
 
-            $po = Po::find($request->poID);
-            $po->vendor_id = $vendor->id;
-            $po->save();
-
-            return response()->json(['success' => 'true', 'msg' => 'Data has been saved!', 'data' => $vendor]);
+            return redirect('po/vendor');
         }
 
-        return response()->json(['error'=>$validator->errors()->all()]);
+        return redirect('po/vendor/create')->withErrors($validator)->withInput();
     }
-    // Read
-    public function readVendor(Request $request, $id)
+
+    public function updateVendor(Request $request, $id)
     {
-        if($id){
-            $vendor = PoVendor::find($id);
-
-            if($vendor){
-                if($request->poID){
-                    $po = Po::find($request->poID);
-                    $po->vendor_id = $vendor->id;
-                    $po->save();
-                }
-
-                return response()->json(['success' => 'true', 'msg' => 'Data has been saved!', 'data' => $vendor]);                
-            }
-
-            return response()->json(['success' => 'false', 'msg' => 'Something went wrong!']);                            
+        if(!$id){
+            return redirect('po/vendor');
         }
-        return response()->json(['success' => 'false', 'msg' => 'Something went wrong!']);
+
+        $data['AGENT'] = $this->AGENT;
+        $data['page_title'] = 'Edit Vendor';
+        $data['vendor'] = PoVendor::find($id);
+
+        return view('public/vendor_update', $data);
+    }
+
+    public function doUpdateVendor(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'id' => 'required',
+            'name' => 'required',
+            'email' => 'required',
+            'phone' => 'required'
+        ]);
+
+        if($validator->passes()){
+            $vendor = PoVendor::find($request->id);
+            $vendor->name = $request->name;
+            $vendor->email = $request->email;
+            $vendor->phone = $request->phone;
+            $vendor->address = $request->address;
+            $vendor->save();
+
+            return redirect('po/vendor');
+        }
+
+        return redirect('po/vendor/update/'.$request->id)->withErrors($validator)->withInput();
+    }
+
+    public function deleteVendor(Request $request, $id)
+    {
+        if(!$id){
+            return response()->json(['success' => false]);
+        }
+
+        $vendor = PoVendor::find($id);
+        $vendor->delete();
+
+        return response()->json(['success' => true]);
+    }
+
+    // API Vendor
+    public function APIGetVendor(Request $request, $id)
+    {
+        if(!$id){
+            return response()->json(['success' => false]);
+        }
+
+        $vendor = PoVendor::find($id);
+        return response()->json(['success' => true, 'data' => $vendor]);
     }
 
     // Item

@@ -35,16 +35,19 @@ Route::group(['middleware' => ['login']], function () {
     Route::delete('inventory/{id}', 'InventoryController@delete');
     /** Purchase Order **/
     Route::get('po', 'PoController@index');
+    Route::get('po/vendor', 'PoController@vendor');
     // Create
     Route::post('po/create', 'PoController@create');
     Route::post('po/item/create', 'PoController@createItem');
     Route::post('po/attachment/create', 'PoController@createAttachment');
-    Route::post('po/vendor/create', 'PoController@createVendor');
+    Route::get('po/vendor/create', 'PoController@createVendor');
+    Route::post('po/vendor/create', 'PoController@doCreateVendor');
     // Update
     Route::post('po/update/{id}', 'PoController@update');
     Route::post('po/item/update/{id}', 'PoController@updateItem');
     Route::post('po/attachment/update/{id}', 'PoController@updateAttachment');
-    Route::post('po/vendor/update/{id}', 'PoController@updateVendor');
+    Route::get('po/vendor/update/{id}', 'PoController@updateVendor');
+    Route::post('po/vendor/update/{id}', 'PoController@doUpdateVendor');
     // Delete
     Route::delete('po/{id}', 'PoController@delete');
     Route::delete('po/item/{id}', 'PoController@deleteItem');
@@ -54,5 +57,7 @@ Route::group(['middleware' => ['login']], function () {
     Route::get('po/{id}', 'PoController@read');
     Route::get('po/item/{id}', 'PoController@readItem');
     Route::get('po/attachment/{id}', 'PoController@readAttachment');
-    Route::get('po/vendor/{id}', 'PoController@readVendor');
+    // Route::get('po/vendor/{id}', 'PoController@readVendor');
+    // API
+    Route::get('api/po/vendor/{id}', 'PoController@APIGetVendor');
 });

@@ -1,75 +1,60 @@
 @extends('admin_template')
 
 @section('content')
-<!-- Box -->
-<div class="box box-success">
+<div class="box box-default">
     <div class="box-header with-border">
-        <h3 class="box-title">My Purchase Order</h3>
-        <div class="box-tools pull-right">
-            <button class="btn btn-box-tool" title="Create Purchase Order" data-toggle="modal" data-target="#createPO"><i class="fa fa-plus"></i> Create Purchase Order</button>
-        </div>
+        <a href="{{ url('po/create') }}" class="btn btn-box-tool pull-right"><i class="fa fa-plus"></i> Create Purchase Order</a>
+        <div class="clearfix"></div>
     </div>
     <div class="box-body">
         <table class="table table-bordered table-striped datatables">
             <thead>
                 <tr>
                     <th>ID</th>
-                    <th>Vendor</th>
-                    <th>Date</th>
+                    <th>Title</th>
+                    <th>Issued By</th>
                     <th>Status</th>
-                    <th width="100">Action</th>
+                    <th width="50">Option</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach($po as $item)
-                    <tr>
-                        <td>GAT/PO/{{ $item->id }}</td>
-                        <td>{{ $item->vendor->name }}</td>
-                    </tr>
+                <tr>
+                    <td>GAT/PO/{{ $item->id }}</td>
+                    <td>{{ $item->title }}</td>
+                    <td>{{ $item->issued_by }}</td>
+                    <td>
+                        @if($item->status == 0)
+                        <span class="label label-warning">Pending Approval By GA</span>
+                        @elseif($item->status == 1)
+                        <span class="label label-warning">Pending Approval By GM</span>
+                        @elseif($item->status == 2)
+                        <span class="label label-warning">Pending Review By Accounting</span>
+                        @elseif($item->status == 3)
+                        <span class="label label-success">Approved</span>
+                        @elseif($item->status == 4)
+                        <span class="label label-danger">Rejected</span>
+                        @endif
+                    </td>
+                    <td>
+                        <a href="{{ url("po/update/$item->id") }}" class="btn btn-default btn-sm"><i class="fa fa-edit"></i></a>
+                        <a href="#" data-id="{{ $item->id }}" class="btn btn-default btn-sm btnDelete"><i class="fa fa-trash"></i></a>
+                    </td>
+                </tr>
                 @endforeach
             </tbody>
             <tfoot>
                 <tr>
-                    <th>ID</th>
-                    <th>Vendor</th>
-                    <th>Date</th>
-                    <th>Status</th>
-                    <th width="100">Action</th>
+                    <th>#</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Option</th>
                 </tr>
             </tfoot>
         </table>
-    </div><!-- /.box-body -->
-    <div class="box-footer">
-    </div><!-- /.box-footer-->
-</div><!-- /.box -->
-
-
-<!-- Modal Create PO -->
-<div class="modal fade" id="createPO" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
-    <div class="modal-content">
-        <div class="modal-header bg-aqua">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title"><i class="fa fa-plus"></i> Add Inventory</h4>
-        </div>
-        <div class="modal-body">
-        <form action="" id="formCreatePO" method="post">
-            {{ csrf_field() }}
-            <input type="hidden" name="issued_by" value="{{ $AGENT['email'] }}">
-            <div class="form-group">
-                <label for="title">Title</label>
-                <input type="text" name="title" class="form-control" autofocus>
-            </div>
-        </form>
-        </div>
-        <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" onclick="createPO()">Save changes</button>
-        </div>
-    </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
-
+    </div>
+</div>
 @endsection
 
 @section('js')
@@ -77,26 +62,11 @@
     $(function(){
         $('.datatables').DataTable();
         $('.editor').wysihtml5();
+        $('[data-toggle="tooltip"]').tooltip();
 
         $("#formCreatePO").submit(function(e){
             e.preventDefault();
         });
     });
-
-    function createPO(){
-        $.ajax({
-            url : "{{ url('po/create') }}",
-            data : $("#formCreatePO").serialize(),
-            dataType : 'json',
-            type : 'POST',
-            success : function(data){
-                if(data.success == 'true'){
-                    window.location = "{{ url('po') }}/"+data.id         
-                }else if(data.success == 'false'){
-                    swal("Error!", data.msg, "warning");          
-                }
-            }
-        });
-    }
 </script>
 @endsection
