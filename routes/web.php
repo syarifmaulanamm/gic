@@ -42,7 +42,8 @@ Route::group(['middleware' => ['login']], function () {
     Route::get('po/vendor/create', 'PoController@createVendor');
     Route::post('po/vendor/create', 'PoController@doCreateVendor');
     // Update
-    Route::post('po/update/{id}', 'PoController@update');
+    Route::get('po/update/{id}', 'PoController@update');
+    Route::post('po/update/{id}', 'PoController@doUpdate');
     Route::post('po/item/update/{id}', 'PoController@updateItem');
     Route::post('po/attachment/update/{id}', 'PoController@updateAttachment');
     Route::get('po/vendor/update/{id}', 'PoController@updateVendor');
@@ -57,6 +58,8 @@ Route::group(['middleware' => ['login']], function () {
     Route::get('po/item/{id}', 'PoController@readItem');
     Route::get('po/attachment/{id}', 'PoController@readAttachment');
     // Route::get('po/vendor/{id}', 'PoController@readVendor');
+    // Approval
+    Route::post('po/approve/{id}', 'PoController@approval');
     // API
     Route::get('api/po/vendor/{id}', 'PoController@APIGetVendor');
 });

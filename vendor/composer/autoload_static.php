@@ -376,6 +376,8 @@ class ComposerStaticInit8e2380780e9e5287ed20dde4392fec1b
         'App\\Http\\Middleware\\TrustProxies' => __DIR__ . '/../..' . '/app/Http/Middleware/TrustProxies.php',
         'App\\Http\\Middleware\\VerifyCsrfToken' => __DIR__ . '/../..' . '/app/Http/Middleware/VerifyCsrfToken.php',
         'App\\Po' => __DIR__ . '/../..' . '/app/Po.php',
+        'App\\PoItem' => __DIR__ . '/../..' . '/app/PoItem.php',
+        'App\\PoVendor' => __DIR__ . '/../..' . '/app/PoVendor.php',
         'App\\Providers\\AppServiceProvider' => __DIR__ . '/../..' . '/app/Providers/AppServiceProvider.php',
         'App\\Providers\\AuthServiceProvider' => __DIR__ . '/../..' . '/app/Providers/AuthServiceProvider.php',
         'App\\Providers\\BroadcastServiceProvider' => __DIR__ . '/../..' . '/app/Providers/BroadcastServiceProvider.php',

@@ -95,23 +95,27 @@
             <h3><em>Total :</em> IDR {{ $po->total }}</h3>
         </div>
         <div class="clearfix"></div>
-        @if($item->status == 0)
+        @if($po->status == 0)
         <div class="bg-yellow text-center">
             Pending Approval By GA
         </div>
-        @elseif($item->status == 1)
+        @elseif($po->status == 1)
         <div class="bg-yellow text-center">
             Pending Approval By GM
         </div>
-        @elseif($item->status == 2)
+        @elseif($po->status == 2)
         <div class="bg-yellow text-center">
             Pending Review By Accounting
         </div>
-        @elseif($item->status == 3)
+        @elseif($po->status == 3)
         <div class="bg-green text-center">
             Approved
         </div>
-        @elseif($item->status == 4)
+        @elseif($po->status == 4)
+        <div class="bg-aqua text-center">
+            Completed
+        </div>
+        @elseif($po->status == 5)
         <div class="bg-red text-center">
             Rejected
         </div>

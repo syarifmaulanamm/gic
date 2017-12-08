@@ -24,15 +24,36 @@ class PoController extends Controller
         $data['page_title'] = 'Purchase Order';
         
         if($data['AGENT']['role'] == 1 || $data['AGENT']['role'] == 2){
-            $data['po'] = Po::all();                        
+            $data['po_pending'] = Po::whereIn('status', array(0,1,2))->orderBy('id', 'desc')->get();           
+            $data['po_approved'] = Po::where('status', '=', 3)->orderBy('id', 'desc')->get();            
+            $data['po_completed'] = Po::where('status', '=', 4)->orderBy('id', 'desc')->get();            
+            $data['po_rejected'] = Po::where('status', '=', 5)->orderBy('id', 'desc')->get();    
+        }else if($data['AGENT']['role'] == 3){
+            $data['po_approval'] = Po::where('status', '=', 1)->orderBy('id', 'desc')->get();             
+            $data['po_pending'] = Po::whereIn('status', array(0,1,2))->orderBy('id', 'desc')->get();           
+            $data['po_approved'] = Po::where('status', '=', 3)->orderBy('id', 'desc')->get();            
+            $data['po_completed'] = Po::where('status', '=', 4)->orderBy('id', 'desc')->get();            
+            $data['po_rejected'] = Po::where('status', '=', 5)->orderBy('id', 'desc')->get();                                
         }else if($data['AGENT']['role'] == 4){
-            $data['po'] = Po::where('status', '=', 0)->orderBy('id', 'desc')->get();            
+            $data['po_approval'] = Po::where('status', '=', 0)->orderBy('id', 'desc')->get();             
+            $data['po_pending'] = Po::whereIn('status', array(0,1,2))->orderBy('id', 'desc')->get();           
+            $data['po_approved'] = Po::where('status', '=', 3)->orderBy('id', 'desc')->get();            
+            $data['po_completed'] = Po::where('status', '=', 4)->orderBy('id', 'desc')->get();            
+            $data['po_rejected'] = Po::where('status', '=', 5)->orderBy('id', 'desc')->get();            
         }else if($data['AGENT']['role'] == 5){                  
-            $data['po'] = Po::where('issued_by', '=', $data['AGENT']['email'])->orderBy('id', 'desc')->get();
-        }else{
+            $data['po_approval'] = Po::where('issued_by', '=', $data['AGENT']['email'])->where('status', '=', 0)->orderBy('id', 'desc')->get();             
+            $data['po_pending'] = Po::where('issued_by', '=', $data['AGENT']['email'])->whereIn('status', array(0,1,2))->orderBy('id', 'desc')->get();           
+            $data['po_approved'] = Po::where('issued_by', '=', $data['AGENT']['email'])->where('status', '=', 3)->orderBy('id', 'desc')->get();            
+            $data['po_completed'] = Po::where('issued_by', '=', $data['AGENT']['email'])->where('status', '=', 4)->orderBy('id', 'desc')->get();            
+            $data['po_rejected'] = Po::where('issued_by', '=', $data['AGENT']['email'])->where('status', '=', 5)->orderBy('id', 'desc')->get();       
+        }else if($data['AGENT']['role'] == 6){
+            $data['po_approval'] = Po::where('status', '=', 2)->orderBy('id', 'desc')->get();             
+            $data['po_pending'] = Po::whereIn('status', array(0,1,2))->orderBy('id', 'desc')->get();           
+            $data['po_approved'] = Po::where('status', '=', 3)->orderBy('id', 'desc')->get();            
+            $data['po_completed'] = Po::where('status', '=', 4)->orderBy('id', 'desc')->get();            
+            $data['po_rejected'] = Po::where('status', '=', 5)->orderBy('id', 'desc')->get();                               
         }
 
-        
         return view('public/po', $data);
     }
     // Create
@@ -103,7 +124,96 @@ class PoController extends Controller
 
         return view('public/po_read', $data);
     }
+    // Approval
+    public function approval(Request $request, $id)
+    {
+        if($id){
+            if($request->type == 'approve'){
+                $po = Po::find($id);
+                if($po->status < 4){
+                    $po->status = $po->status+1;
+                }
+                $po->save();
+            }else if($request->type == 'reject'){
+                $po = Po::find($id);
+                $po->status = 5;
+                $po->save();
+            }
 
+            return response()->json(['success' => true]);
+        }
+        
+        return response()->json(['success' => false]);
+    }
+
+    // Update
+    public function update(Request $request, $id)
+    {
+        if($id){
+            $data['AGENT'] = $this->AGENT;
+            $data['page_title'] = 'Edit Purchase Order';
+            $data['vendors'] = PoVendor::all();
+            $data['po'] = Po::find($id);
+            $data['items'] = PoItem::where('po_id','=',$id)->get();
+            
+            return view('public/po_update', $data);
+        }
+
+        return redirect('po');
+    }
+
+    public function doUpdate(Request $request, $id)
+    {
+        if($id){
+            $validator = Validator::make($request->all(), [
+                'id' => 'required',
+                'title' => 'required',
+                'vendor_id' => 'required'
+            ]);
+
+            $agent = $this->AGENT;
+
+            if($validator->passes()){
+                // PO
+                $po = Po::find($id);
+                $po->title = $request->title;
+                $po->vendor_id = $request->vendor_id;
+                $po->delivery = $request->delivery;
+                $po->shipment_to = $request->shipment_to;
+                $po->freight = $request->freight;
+                $po->insurance = $request->insurance;
+                $po->payment = $request->payment;
+                $po->total = $request->total;
+                // $po->tax = $request->tax;
+                $po->issued_by = $agent['email'];
+                $po->save();
+
+                $id = $po->id;
+                $data = array();
+                // ITEMS
+                $resetItem = PoItem::where('po_id', '=', $id)->delete();
+
+                for($i = 1; $i < count($request->nameItem); $i++){
+                    $data[] = array(
+                        'po_id' => $id,
+                        'name' => $request->nameItem[$i],
+                        'quantity' => $request->quantity[$i],
+                        'price' => $request->price[$i],
+                        'amount' => $request->amount[$i],
+                        'created_at' => date('Y-m-d H:i:s'),
+                        'updated_at' => date('Y-m-d H:i:s')
+                    );
+                }
+                $item = PoItem::insert($data);
+
+                return redirect('po');
+            }
+
+            return redirect('po/update')->withErrors($validator)->withInput();
+        }
+
+        return redirect('po');
+    }
 
     /** Vendor **/
     // index
