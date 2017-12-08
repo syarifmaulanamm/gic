@@ -46,6 +46,21 @@
             <li><a href="{{ url('po/vendor/create') }}">Add Vendor</a></li>
           </ul>
         </li>
+        @if(in_array($AGENT['role'], array(7)))
+        <li class="treeview">
+          <a href="#"><i class="fa fa-address-card" aria-hidden="true"></i> <span>Sales</span>
+            <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+              </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="{{ url('sales/revenue') }}">Sales Revenue</a></li>
+            <li><a href="{{ url('sales/revenue/create') }}">Create Sales Revenue</a></li>
+            <li><a href="{{ url('sales/client-status') }}">Client Status</a></li>
+            <li><a href="{{ url('sales/client-status/create') }}">Add Client</a></li>
+          </ul>
+        </li>
+        @endif
         <li class="treeview">
           <a href="#"><i class="fa fa-table" aria-hidden="true"></i> <span>Report</span>
             <span class="pull-right-container">

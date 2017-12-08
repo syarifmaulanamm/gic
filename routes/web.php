@@ -62,4 +62,13 @@ Route::group(['middleware' => ['login']], function () {
     Route::post('po/approve/{id}', 'PoController@approval');
     // API
     Route::get('api/po/vendor/{id}', 'PoController@APIGetVendor');
+    /**
+     * Sales
+     */
+    Route::get('sales/revenue', 'SalesController@revenue');
+    Route::get('sales/client-status', 'SalesController@clientStatus');
+    // Create
+    Route::get('sales/revenue/create', 'SalesController@createRevenue');
+    Route::get('sales/client-status/create', 'SalesController@createClient');
+    Route::post('sales/client-status/create', 'SalesController@doCreateClient');
 });

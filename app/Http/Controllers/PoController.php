@@ -40,7 +40,7 @@ class PoController extends Controller
             $data['po_approved'] = Po::where('status', '=', 3)->orderBy('id', 'desc')->get();            
             $data['po_completed'] = Po::where('status', '=', 4)->orderBy('id', 'desc')->get();            
             $data['po_rejected'] = Po::where('status', '=', 5)->orderBy('id', 'desc')->get();            
-        }else if($data['AGENT']['role'] == 5){                  
+        }else if(in_array($data['AGENT']['role'], array(5,7))){                  
             $data['po_approval'] = Po::where('issued_by', '=', $data['AGENT']['email'])->where('status', '=', 0)->orderBy('id', 'desc')->get();             
             $data['po_pending'] = Po::where('issued_by', '=', $data['AGENT']['email'])->whereIn('status', array(0,1,2))->orderBy('id', 'desc')->get();           
             $data['po_approved'] = Po::where('issued_by', '=', $data['AGENT']['email'])->where('status', '=', 3)->orderBy('id', 'desc')->get();            
