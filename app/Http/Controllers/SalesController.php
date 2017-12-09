@@ -36,9 +36,21 @@ class SalesController extends Controller
     /**
      * Client
      */
-    public function clintStatus(Request $request)
+    public function clientStatus(Request $request, $id = NULL)
     {
+        $data['AGENT'] = $this->AGENT;
+        $data['page_title'] = 'Client Status';
         
+        if($id){
+            $data['client'] = clientStatus::find($id);
+            $data['details'] = CompanyDetails::where('sales_client_id', '=', $id)->get();
+            
+            return view('public/sales_client_detail', $data);    
+        }
+
+        $data['clients'] = clientStatus::all();
+
+        return view('public/sales_client', $data);
     }
     // Create Client
     public function createClient(Request $request)
@@ -103,5 +115,16 @@ class SalesController extends Controller
         }
 
         return redirect('sales/client-status')->withErrors($validator)->withInput();
+    }
+    // Update Client
+    public function updateClient(Request $request, $id)
+    {
+        $data['AGENT'] = $this->AGENT;
+        $data['page_title'] = 'Edit Client Status';
+
+        $data['client'] = clientStatus::find($id);
+        $data['details'] = CompanyDetails::where('sales_client_id', '=', $id)->get();
+
+        return view('public/sales_client_edit', $data);
     }
 }
