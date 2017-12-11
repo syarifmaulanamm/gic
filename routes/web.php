@@ -70,10 +70,10 @@ Route::group(['middleware' => ['login']], function () {
     Route::get('sales/client-status/create', 'SalesController@createClient');
     Route::post('sales/client-status/create', 'SalesController@doCreateClient');
     // Update
-    Route::get('sales/client-status/update/{$id}', 'SalesController@updateClient');
-    Route::post('sales/client-status/update/{$id}', 'SalesController@doUpdateClient');
+    Route::get('sales/client-status/update/{id}', 'SalesController@updateClient');
+    Route::post('sales/client-status/update/{id}', 'SalesController@doUpdateClient');
     // Get
+    Route::get('sales/client-status/{id}', 'SalesController@clientStatus');
     Route::get('sales/revenue', 'SalesController@revenue');
     Route::get('sales/client-status', 'SalesController@clientStatus');
-    Route::get('sales/client-status/{id}', 'SalesController@clientStatus');
 });

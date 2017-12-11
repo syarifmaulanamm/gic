@@ -1,3 +1,20 @@
+### 3.1.0 (2017-06-11)
+* Add $language support to slugify
+* Add bg specific transliteration
+* ЬЪ/ьъ handling is now language-specific
+
+### 3.0.1 (2017-04-12)
+* Don't replace @ in toAscii
+* Use normal replacement for @ in slugify, e.g. user@home => user-home
+
+### 3.0.0 (2017-03-08)
+
+* Breaking change: added $language parameter to toAscii, before
+  $removeUnsupported
+* Breaking change: dropped PHP 5.3 support
+* Breaking change: any StaticStringy methods that previously returned instances
+  of Stringy now return strings
+
 ### 2.4.0 (2017-03-02)
 
 * Add startsWithAny
