@@ -20,7 +20,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <!-- bootstrap wysihtml5 - text editor -->
   <link rel="stylesheet" href="{{ asset("bower_components/admin-lte/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css") }}">
   <!-- bootstrap sweet alert -->
-  <link rel="stylesheet" href="{{ asset("bower_components/bootstrap-sweetalert/dist/sweetalert.css") }}"
+  <link rel="stylesheet" href="{{ asset("bower_components/bootstrap-sweetalert/dist/sweetalert.css") }}">
+  <!-- Bootstrap Datepicker -->
+  <link rel="stylesheet" href="{{ asset("bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker3.min.css") }}">  
+  <!-- Bootstrap Select -->
+  <link rel="stylesheet" href="{{ asset("bower_components/bootstrap-select/dist/css/bootstrap-select.min.css") }}">  
   <!-- Dropzone JS -->
   <link rel="stylesheet" href="{{ asset("bower_components/dropzone/dist/min/dropzone.min.css") }}">
   <!-- Theme style -->
@@ -115,6 +119,10 @@ desired effect
 <script src="{{ asset("bower_components/admin-lte/dist/js/adminlte.min.js") }}"></script>
 <!-- Sweet Alert -->
 <script src="{{ asset("bower_components/bootstrap-sweetalert/dist/sweetalert.min.js") }}"></script>
+<!-- Bootstrap Datepicker -->
+<script src="{{ asset("bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min") }}"></script>
+<!-- Bootstrap Select -->
+<script src="{{ asset("bower_components/bootstrap-select/dist/js/bootstrap-select.min.js") }}"></script>
 <!-- DataTables -->
 <script src="{{ asset("bower_components/datatables.net/js/jquery.dataTables.min.js") }}"></script>
 <script src="{{ asset("bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js") }}"></script>

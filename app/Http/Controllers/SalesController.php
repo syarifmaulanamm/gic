@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\ClientStatus;
 use App\CompanyDetails;
+use App\Airlines;
 
 class SalesController extends Controller
 {
@@ -30,6 +31,10 @@ class SalesController extends Controller
     {
         $data['AGENT'] = $this->AGENT;
         $data['page_title'] = 'Create Sales Revenue Performance';
+        $data['airlines_dom'] = Airlines::where('area', '=', 'domestic')->get();
+        $data['airlines_int'] = Airlines::where('area', '=', 'international')->get();
+        $data['tour'] = array('Umrah', 'Moslem Tour', 'Regular/Series', 'Incentive Tour');
+        $data['others'] = array('Paspor', 'Visa', 'Hotel', 'Transportation');
 
         return view('public/sales_revenue_create', $data);
     }
@@ -188,5 +193,19 @@ class SalesController extends Controller
         }
 
         return redirect('sales/client-status');
+    }
+    // Delete Client 
+    public function deleteClient(Request $request, $id)
+    {
+        if(!$id){
+            return response()->json(['success' => false]);
+        }
+
+        $client = ClientStatus::find($id);
+        $client->delete();
+
+        $delDetails = CompanyDetails::where('sales_client_id', '=', $id)->delete();
+
+        return response()->json(['success' => true]);
     }
 }

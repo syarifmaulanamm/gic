@@ -72,8 +72,17 @@ Route::group(['middleware' => ['login']], function () {
     // Update
     Route::get('sales/client-status/update/{id}', 'SalesController@updateClient');
     Route::post('sales/client-status/update/{id}', 'SalesController@doUpdateClient');
+    // Delete
+    Route::delete('sales/client-status/{id}', 'SalesController@deleteClient');
     // Get
     Route::get('sales/client-status/{id}', 'SalesController@clientStatus');
     Route::get('sales/revenue', 'SalesController@revenue');
     Route::get('sales/client-status', 'SalesController@clientStatus');
+    /**
+     * Airlines
+     */
+    Route::get('airlines', 'AirlinesController@index');
+    // Create
+    Route::get('airlines/create', 'AirlinesController@create');
+    Route::post('airlines/create', 'AirlinesController@doCreate');
 });

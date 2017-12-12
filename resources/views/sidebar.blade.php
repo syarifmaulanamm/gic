@@ -71,6 +71,17 @@
             <li><a href="{{ url('report/stock') }}">Stock</a></li>
           </ul>
         </li>
+        <li class="treeview">
+          <a href="#"><i class="fa fa-database" aria-hidden="true"></i> <span>Database</span>
+            <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+              </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="{{ url('airlines') }}">Airlines</a></li>
+            <li><a href="{{ url('airlines/create') }}">Add Airlines</a></li>
+          </ul>
+        </li>
         <!-- <li class="treeview">
           <a href="#"><i class="fa fa-link"></i> <span>Multilevel</span>
             <span class="pull-right-container">

@@ -54,5 +54,33 @@
             "bSort" : false
         });
         $('[data-toggle="tooltip"]').tooltip();
+
+        
+        $(".btnDelete").on('click', function(){
+            var id = $(this).data('id');
+
+            swal({
+                title: "Are you sure?",
+                text: "Your will not be able to recover after deletion!",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonClass: "btn-danger",
+                confirmButtonText: "Yes, delete it!",
+                closeOnConfirm: false
+            },
+            function(){
+                $.ajax({
+                    type: "POST",
+                    url: "{{url('sales/client-status')}}/"+id,
+                    dataType: "json",
+                    data: {_method: 'delete', _token : '{{ csrf_token() }}' },
+                    success: function(data){
+                        swal("Deleted!", "Your data has been deleted.", "success");
+                        setTimeout(location.reload.bind(location), 2000);
+                    }
+                });
+            });
+        });
+    });
 </script>
 @endsection
