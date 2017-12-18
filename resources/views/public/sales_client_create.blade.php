@@ -25,7 +25,7 @@
             <div class="form-group">
                 <label class="col-sm-3 control-label">Classification*</label>
                 <div class="col-sm-9">
-                    <select name="classification" class="form-control" required>
+                    <select name="classification" class="form-control selectpicker" data-live-search="true" required>
                         <option value="1">General Trading</option>
                         <option value="2">Mining</option>
                         <option value="3">Others</option>
@@ -95,7 +95,7 @@
             <div class="form-group">
                 <label class="col-sm-3 control-label">Date Of Assign</label>
                 <div class="col-sm-9">
-                    <input type="date" name="date_of_assign" class="form-control">
+                    <input type="text" name="date_of_assign" class="form-control datepicker">
                 </div>
             </div>
             <div class="form-group">
@@ -147,10 +147,10 @@
                         <input type="text" name="title[]" class="form-control">
                     </td>
                     <td data-name="dob">
-                        <input type="date" name="dob[]" class="form-control">
+                        <input type="text" name="dob[]" class="form-control datepicker">
                     </td>
                     <td data-name="doj">
-                        <input type="date" name="doj[]" class="form-control">
+                        <input type="text" name="doj[]" class="form-control datepicker">
                     </td>
                     <td data-name="phone">
                         <input type="text" name="phonePIC[]" class="form-control">
@@ -182,6 +182,16 @@
         $('.datatables').DataTable({
             "bSort" : false
         });
+        
+        $('.selectpicker').selectpicker({
+            style: 'btn-info',
+            size: 4
+        });
+
+        $(".datepicker").datepicker( {
+            format: "dd-mm-yyyy"
+        });
+
         $('[data-toggle="tooltip"]').tooltip();
 
         $("#addItem").on("click", function(){
@@ -219,6 +229,10 @@
                 $(tr).find("td .btnDelete").on('click', function(){
                     $(this).closest('tr').remove();
                     getTotal();
+                });
+
+                $(".datepicker").datepicker( {
+                    format: "dd-mm-yyyy"
                 });
             });
         });

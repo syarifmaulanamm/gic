@@ -15,7 +15,15 @@
             </tr>
             <tr>
                 <td><strong>Classification</strong></td>
-                <td colspan="3">{{ $client->classification }}</td>
+                <td colspan="3">
+                @if($client->classification == 1)
+                General Trading
+                @elseif($client->classification == 2)
+                Mining
+                @elseif($client->classification == 3)
+                Others
+                @endif
+                </td>
             </tr>
             <tr>
                 <td><strong>Name Of Company</strong></td>

@@ -67,6 +67,9 @@ Route::group(['middleware' => ['login']], function () {
      */
     // Create
     Route::get('sales/revenue/create', 'SalesController@createRevenue');
+    Route::get('api/sales/revenue/m2m', 'SalesController@m2m');
+    Route::get('api/sales/revenue/y2y', 'SalesController@y2y');
+    Route::post('sales/revenue/create', 'SalesController@doCreateRevenue');
     Route::get('sales/client-status/create', 'SalesController@createClient');
     Route::post('sales/client-status/create', 'SalesController@doCreateClient');
     // Update

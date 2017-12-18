@@ -1,6 +1,12 @@
 @extends('admin_template')
 
 @section('content')
+
+<div class="callout callout-info">
+    <h4>Tip!</h4>
+    <p>Input sales revenue performance every month to get complete report</p>
+</div>
+
 <div class="box box-default">
     <div class="box-body">
         <div class="col-md-8 col-md-offset-2">
@@ -18,6 +24,17 @@
 
         <form action="" method="post" class="form-horizontal">
         {{ csrf_field() }}
+            <div class="form-group">
+                <label class="col-sm-3 control-label">Name Of Company</label>
+                <div class="col-sm-9">
+                <select name="sales_client_id" class="form-control selectpicker" data-live-search="true">
+                    <option value=""></option>
+                    @foreach($client_status as $item)
+                    <option value="{{ $item->id }}">{{ $item->name_of_company }}</option>
+                    @endforeach
+                </select>
+                </div>
+            </div>
             <div class="form-group">
                 <label class="col-sm-3 control-label">Group Of Report</label>
                 <div class="col-sm-9">
@@ -73,19 +90,25 @@
             <div class="form-group">
                 <label class="col-sm-3 control-label">Gross</label>
                 <div class="col-sm-9">
-                    <input type="text" name="gross" class="form-control">
+                    <input type="text" name="gross" class="form-control currency">
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-3 control-label">Netto</label>
                 <div class="col-sm-9">
-                    <input type="text" name="netto" class="form-control">
+                    <input type="text" name="netto" class="form-control currency">
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-3 control-label">Profit</label>
                 <div class="col-sm-9">
-                    <input type="text" name="profit" class="form-control" readonly>
+                    <input type="text" name="profit" class="form-control currency" readonly>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">Month</label>
+                <div class="col-sm-9">
+                    <input type="text" name="month" class="form-control monthpicker">
                 </div>
             </div>
             <div class="col-md-9 col-md-offset-3">
@@ -95,6 +118,7 @@
         </div>
     </div>
 </div>
+</form>
 @endsection
 
 @section('js')
@@ -103,10 +127,26 @@
         $('.datatables').DataTable({
             "bSort" : false
         });
-        $('[data-toggle="tooltip"]').tooltip();
         $('.selectpicker').selectpicker({
             style: 'btn-info',
             size: 4
+        });
+
+        $('.currency').inputmask("numeric", {
+            radixPoint: ".",
+            groupSeparator: ",",
+            digits: 2,
+            autoGroup: true,
+            rightAlign: false,
+            oncleared: function () {
+                self.Value('');
+            }
+        });
+
+        $(".monthpicker").datepicker( {
+            format: "mm-yyyy",
+            viewMode: "months", 
+            minViewMode: "months"
         });
 
         $('select[name="report_type"]').on('change', function(){
@@ -115,30 +155,56 @@
                 $("#airlines_int").addClass('hide');
                 $("#tour").addClass('hide');
                 $("#others").addClass('hide');
+                
+                $("#airlines_dom").find('select').attr('name', 'subject');
+                $("#airlines_int").find('select').attr('name', '');
+                $("#tour").find('select').attr('name', '');
+                $("#others").find('select').attr('name', '');
             }else if($(this).val() == '2'){
                 $("#airlines_dom").addClass('hide');
                 $("#airlines_int").removeClass('hide');
                 $("#tour").addClass('hide');
                 $("#others").addClass('hide');
+                
+                $("#airlines_dom").find('select').attr('name', '');
+                $("#airlines_int").find('select').attr('name', 'subject');
+                $("#tour").find('select').attr('name', '');
+                $("#others").find('select').attr('name', '');
             }else if($(this).val() == '3'){
                 $("#airlines_dom").addClass('hide');
                 $("#airlines_int").addClass('hide');
                 $("#tour").removeClass('hide');
                 $("#others").addClass('hide');
+                
+                $("#airlines_dom").find('select').attr('name', '');
+                $("#airlines_int").find('select').attr('name', '');
+                $("#tour").find('select').attr('name', 'subject');
+                $("#others").find('select').attr('name', '');
             }else if($(this).val() == '4'){
                 $("#airlines_dom").addClass('hide');
                 $("#airlines_int").addClass('hide');
                 $("#tour").addClass('hide');
                 $("#others").removeClass('hide');
+                
+                $("#airlines_dom").find('select').attr('name', '');
+                $("#airlines_int").find('select').attr('name', '');
+                $("#tour").find('select').attr('name', '');
+                $("#others").find('select').attr('name', 'subject');
             }
         });
 
         $('input[name="gross"]').on('keyup', function(){
-            $('input[name="profit"]').val($(this).val()-$('input[name="netto"]').val());
+            var gross = parseFloat($(this).val().replace(/,/g, ''));
+            var netto = parseFloat($('input[name="netto"]').val().replace(/,/g, ''));
+
+            $('input[name="profit"]').val(gross - netto);
         });
         
         $('input[name="netto"]').on('keyup', function(){
-            $('input[name="profit"]').val($('input[name="gross"]').val()-$(this).val());
+            var gross = parseFloat($('input[name="gross"]').val().replace(/,/g, ''));
+            var netto = parseFloat($(this).val().replace(/,/g, ''));
+
+            $('input[name="profit"]').val(gross - netto);
         });
     });
 </script>

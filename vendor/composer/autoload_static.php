@@ -20,6 +20,7 @@ class ComposerStaticInit8e2380780e9e5287ed20dde4392fec1b
         'e7223560d890eab89cda23685e711e2c' => __DIR__ . '/..' . '/psy/psysh/src/Psy/functions.php',
         'f0906e6318348a765ffb6eb24e0d0938' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/Foundation/helpers.php',
         '58571171fd5812e6e447dce228f52f4d' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/Support/helpers.php',
+        'b4e3f29b106af37a2bb239f73cdf68c7' => __DIR__ . '/../..' . '/app/helpers.php',
     );
 
     public static $prefixLengthsPsr4 = array (
@@ -361,11 +362,13 @@ class ComposerStaticInit8e2380780e9e5287ed20dde4392fec1b
     );
 
     public static $classMap = array (
+        'App\\Airlines' => __DIR__ . '/../..' . '/app/Airlines.php',
         'App\\ClientStatus' => __DIR__ . '/../..' . '/app/ClientStatus.php',
         'App\\CompanyDetails' => __DIR__ . '/../..' . '/app/CompanyDetails.php',
         'App\\Console\\Kernel' => __DIR__ . '/../..' . '/app/Console/Kernel.php',
         'App\\Exceptions\\Handler' => __DIR__ . '/../..' . '/app/Exceptions/Handler.php',
         'App\\Goods' => __DIR__ . '/../..' . '/app/Goods.php',
+        'App\\Http\\Controllers\\AirlinesController' => __DIR__ . '/../..' . '/app/Http/Controllers/AirlinesController.php',
         'App\\Http\\Controllers\\Auth\\ForgotPasswordController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/ForgotPasswordController.php',
         'App\\Http\\Controllers\\Auth\\LoginController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/LoginController.php',
         'App\\Http\\Controllers\\Auth\\RegisterController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/RegisterController.php',
@@ -392,6 +395,7 @@ class ComposerStaticInit8e2380780e9e5287ed20dde4392fec1b
         'App\\Providers\\BroadcastServiceProvider' => __DIR__ . '/../..' . '/app/Providers/BroadcastServiceProvider.php',
         'App\\Providers\\EventServiceProvider' => __DIR__ . '/../..' . '/app/Providers/EventServiceProvider.php',
         'App\\Providers\\RouteServiceProvider' => __DIR__ . '/../..' . '/app/Providers/RouteServiceProvider.php',
+        'App\\SalesReport' => __DIR__ . '/../..' . '/app/SalesReport.php',
         'App\\StockIn' => __DIR__ . '/../..' . '/app/StockIn.php',
         'App\\StockOut' => __DIR__ . '/../..' . '/app/StockOut.php',
         'App\\StockReturn' => __DIR__ . '/../..' . '/app/StockReturn.php',

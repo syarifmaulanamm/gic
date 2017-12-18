@@ -65,7 +65,7 @@ desired effect
 |               | sidebar-mini                            |
 |---------------------------------------------------------|
 -->
-<body class="hold-transition skin-black sidebar-mini">
+<body class="hold-transition skin-black sidebar-collapse sidebar-mini fixed">
 <div class="wrapper">
     <!-- Header -->
     @include('header')
@@ -120,9 +120,11 @@ desired effect
 <!-- Sweet Alert -->
 <script src="{{ asset("bower_components/bootstrap-sweetalert/dist/sweetalert.min.js") }}"></script>
 <!-- Bootstrap Datepicker -->
-<script src="{{ asset("bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min") }}"></script>
+<script src="{{ asset("bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js") }}"></script>
 <!-- Bootstrap Select -->
 <script src="{{ asset("bower_components/bootstrap-select/dist/js/bootstrap-select.min.js") }}"></script>
+<!-- Input Mask -->
+<script src="{{ asset("bower_components/inputmask/dist/min/jquery.inputmask.bundle.min.js") }}"></script>
 <!-- DataTables -->
 <script src="{{ asset("bower_components/datatables.net/js/jquery.dataTables.min.js") }}"></script>
 <script src="{{ asset("bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js") }}"></script>
@@ -135,6 +137,8 @@ desired effect
 <script src="{{ asset("/bower_components/jquery.maskMoney/dist/jquery.maskMoney.min.js") }}"></script>
 <!-- Dropzone -->
 <script src="{{ asset("bower_components/dropzone/dist/min/dropzone.min.js") }}"></script>
+<!-- Chart JS -->
+<script src="{{ asset("bower_components/chart.js/dist/Chart.bundle.min.js") }}"></script>
 @yield('js')
 </body>
 </html>

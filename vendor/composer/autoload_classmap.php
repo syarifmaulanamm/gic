@@ -6,11 +6,13 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'App\\Airlines' => $baseDir . '/app/Airlines.php',
     'App\\ClientStatus' => $baseDir . '/app/ClientStatus.php',
     'App\\CompanyDetails' => $baseDir . '/app/CompanyDetails.php',
     'App\\Console\\Kernel' => $baseDir . '/app/Console/Kernel.php',
     'App\\Exceptions\\Handler' => $baseDir . '/app/Exceptions/Handler.php',
     'App\\Goods' => $baseDir . '/app/Goods.php',
+    'App\\Http\\Controllers\\AirlinesController' => $baseDir . '/app/Http/Controllers/AirlinesController.php',
     'App\\Http\\Controllers\\Auth\\ForgotPasswordController' => $baseDir . '/app/Http/Controllers/Auth/ForgotPasswordController.php',
     'App\\Http\\Controllers\\Auth\\LoginController' => $baseDir . '/app/Http/Controllers/Auth/LoginController.php',
     'App\\Http\\Controllers\\Auth\\RegisterController' => $baseDir . '/app/Http/Controllers/Auth/RegisterController.php',
@@ -37,6 +39,7 @@ return array(
     'App\\Providers\\BroadcastServiceProvider' => $baseDir . '/app/Providers/BroadcastServiceProvider.php',
     'App\\Providers\\EventServiceProvider' => $baseDir . '/app/Providers/EventServiceProvider.php',
     'App\\Providers\\RouteServiceProvider' => $baseDir . '/app/Providers/RouteServiceProvider.php',
+    'App\\SalesReport' => $baseDir . '/app/SalesReport.php',
     'App\\StockIn' => $baseDir . '/app/StockIn.php',
     'App\\StockOut' => $baseDir . '/app/StockOut.php',
     'App\\StockReturn' => $baseDir . '/app/StockReturn.php',
